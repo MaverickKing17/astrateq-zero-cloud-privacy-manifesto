@@ -253,11 +253,15 @@ export default function App() {
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           
           {/* Logo & Branding */}
-          <div className="flex items-center gap-3 cursor-pointer" onClick={() => scrollToSection('hero')}>
-            <div className="w-9 h-9 rounded bg-[#0B1F3A] border border-[#00D4FF] flex items-center justify-center relative overflow-hidden">
-              <div className="absolute inset-0.5 bg-gradient-to-tr from-[#00D4FF]/20 to-black rounded-sm flex items-center justify-center font-bold text-lg text-brand-accent font-heading">
-                A
-              </div>
+          <div className="flex items-center gap-3 cursor-pointer" onClick={() => scrollToSection('hero')} id="top-left-logo-branding">
+            <div className="relative group select-none shrink-0">
+              <div className="absolute -inset-0.5 bg-gradient-to-r from-[#FF7000] to-yellow-500 rounded-full blur opacity-40 group-hover:opacity-80 transition duration-500"></div>
+              <img 
+                src="https://i.ibb.co/Z6hnHx3y/Gemini-Generated-Image-pta8i9pta8i9pta8.png" 
+                alt="Logo" 
+                className="relative w-10 h-10 rounded-full border border-yellow-500/30 object-cover shadow-md"
+                referrerPolicy="no-referrer"
+              />
             </div>
             <div>
               <span className="block font-heading font-bold text-sm tracking-widest text-[#FFFFFF] uppercase">Astrateq</span>
@@ -334,19 +338,6 @@ export default function App() {
           >
             <Menu className="w-5 h-5" />
           </button>
-
-          {/* Top-Right Premium Logo */}
-          <div className="flex items-center ml-4 pl-4 border-l border-blue-900/40 shrink-0" id="top-right-logo-container">
-            <div className="relative group select-none">
-              <div className="absolute -inset-1 bg-gradient-to-r from-[#FF7000] to-yellow-500 rounded-full blur opacity-30 group-hover:opacity-75 transition duration-500"></div>
-              <img 
-                src="https://i.ibb.co/Z6hnHx3y/Gemini-Generated-Image-pta8i9pta8i9pta8.png" 
-                alt="Logo" 
-                className="relative w-10 h-10 rounded-full border border-yellow-500/30 object-cover shadow-md"
-                referrerPolicy="no-referrer"
-              />
-            </div>
-          </div>
         </div>
 
         {/* Mobile Navigation Drawer */}
