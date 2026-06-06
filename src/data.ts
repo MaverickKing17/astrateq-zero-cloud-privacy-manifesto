@@ -39,7 +39,7 @@ export interface CommitmentCard {
 
 export interface FAQItem {
   id: number;
-  topic: 'Vehicle Privacy' | 'Connected Vehicles' | 'Local Processing' | 'Cloud Processing' | 'Driver Awareness' | 'Data Transparency' | 'Technology Literacy' | 'Canadian Context';
+  topic: 'Privacy' | 'Connected Vehicles' | 'Driver Awareness' | 'Local Processing' | 'Technology Basics' | 'Future Trends' | string;
   question: string;
   answer: string;
 }
@@ -348,19 +348,19 @@ Privacy is an ongoing conversation, not a static product state. Here is what our
 export const FAQ_ITEMS: FAQItem[] = [
   {
     id: 1,
-    topic: "Vehicle Privacy",
+    topic: "Privacy",
     question: "What is vehicle privacy and why does it matter today?",
     answer: "A vehicle is a physically secure shell where individuals have high expectations of personal privacy. As cars became mobile computers, they gained the power to track your driving habits, location histories, and cabin interactions. Vehicle privacy ensures this rich material remains physical to you, avoiding remote exploitation."
   },
   {
     id: 2,
-    topic: "Vehicle Privacy",
+    topic: "Privacy",
     question: "How did vehicle data collection become so common without driver awareness?",
     answer: "Historically, electronics were integrated into cars quietly for mechanical diagnostics. Over time, as wireless modems became standard, manufacturers realized this data could be sent back automatically. Since it occurred in the background under long, default terms of service, most drivers remained completely unaware."
   },
   {
     id: 3,
-    topic: "Vehicle Privacy",
+    topic: "Privacy",
     question: "Who typically buys, sells, or accesses connected car records?",
     answer: "Data analytic firms, insurance brokers, data brokers, and marketing networks seek detailed driving diagnostics to construct behavioral algorithms. Raw location data and acceleration metrics are highly sought after to forecast consumer habits and write custom policy models."
   },
@@ -402,19 +402,19 @@ export const FAQ_ITEMS: FAQItem[] = [
   },
   {
     id: 10,
-    topic: "Cloud Processing",
+    topic: "Technology Basics",
     question: "When is cloud processing actually necessary or useful in modern vehicles?",
     answer: "Cloud databases excel at aggregate information: compiling anonymized road temperature data to warn future drivers of black ice, downloading global firmware updates, and aggregating overall traffic volumes. It is useful for general trends, not for specific driver diagnostics."
   },
   {
     id: 11,
-    topic: "Cloud Processing",
+    topic: "Connected Vehicles",
     question: "What are the primary security risks of sending raw telematics directly to databases?",
     answer: "Once telematics escape the vehicle, they are recorded permanently. Security risks include systemic API leaks, unauthorized access by subsidiary partners, database misconfigurations, and long-term storage profiles that can affect your personal insurance standing."
   },
   {
     id: 12,
-    topic: "Cloud Processing",
+    topic: "Local Processing",
     question: "How does Astrateq's Zero-Cloud design reference help minimize cloud exposures?",
     answer: "Zero-Cloud is our guiding design philosophy. It forces engineers to design products with the assumption that a network connection is completely absent. Every option, setting, and diagnostic metric must run in standalone isolation unless you explicitly choose to connect."
   },
@@ -432,38 +432,183 @@ export const FAQ_ITEMS: FAQItem[] = [
   },
   {
     id: 15,
-    topic: "Data Transparency",
+    topic: "Driver Awareness",
     question: "What is clear plain-English communication in vehicular software?",
     answer: "It is the commitment to avoid technical acronyms and complex engineering variables. Instead of showing dry error codes, the software should state clearly: 'The steering angle sensor detected light frost buildup; self-tuning complete. No data was shared.'"
   },
   {
     id: 16,
-    topic: "Data Transparency",
+    topic: "Driver Awareness",
     question: "Can I request a complete export of the information my car stores locally?",
     answer: "Under Canadian PIPEDA privacy laws, you have a right to access your recorded data. Astrateq advocates for physical hardware outputs that let you copy your local trip log directly onto a standard USB key, with no fees or hurdles."
   },
   {
     id: 17,
-    topic: "Technology Literacy",
+    topic: "Technology Basics",
     question: "Do I need a computer science background to take back control of my vehicle data?",
     answer: "Absolutely not. Privacy is a human right, and human rights should not have technical pre-requisites. Systems must be built so an individual of any background can inspect, configure, and secure their driving cabin with simple, friendly toggles."
   },
   {
     id: 18,
-    topic: "Technology Literacy",
+    topic: "Technology Basics",
     question: "How does Astrateq promote educational-first software interfaces?",
     answer: "We design with visual storytelling. Our templates show how electric currents flow, what parameters live in computer chips, and exactly how data pathways diverge. When drivers see the map of their system, they intuitively master it."
   },
   {
     id: 19,
-    topic: "Canadian Context",
+    topic: "Privacy",
     question: "Are there unique regulatory frameworks safeguarding drivers in Canada?",
     answer: "Canada is protected under PIPEDA and provincial acts like Quebec's Law 25, which demand strict limits on automated tracking and clear consent mechanics. However, automotive systems often lag behind these legal updates, calling for local-first initiatives."
   },
   {
     id: 20,
-    topic: "Canadian Context",
+    topic: "Future Trends",
     question: "How do Canadian weather patterns and geography influence local-first design considerations?",
     answer: "Canada contains vast geographical spaces, freezing cold winters, and thousands of kilometers of unlinked forest paths. A vehicle that depends on a persistent internet cloud to unlock its secondary features or calculate local fuel economy is a safety hazard in a Canadian winter. Local-first design ensures absolute reliability under any sky."
+  }
+];
+
+export interface PrivacyMatterCard {
+  title: string;
+  category: string;
+  description: string;
+  iconName: string;
+}
+
+export interface ApproachItem {
+  title: string;
+  description: string;
+}
+
+export interface PrivacyPrinciple {
+  title: string;
+  subtitle: string;
+  description: string;
+  iconName: string;
+}
+
+export const PRIVACY_MATTERS_CARDS: PrivacyMatterCard[] = [
+  {
+    title: "Daily Commutes",
+    category: "Routine Signature Protection",
+    description: "Your routine is your signature. Repeating the same route to the office, the cafe, and home generates a predictable baseline that telemetry algorithms use to catalog your life. Local processing ensures your calendar remains private.",
+    iconName: "Car"
+  },
+  {
+    title: "Family Road Trips",
+    category: "Leisure Location Isolation",
+    description: "Vacations should be about winding down, not generating coordinate coordinates. Frequent stops at parks, detours, and rest areas create dynamic profiles that escape your control on cloud systems. Drive offline.",
+    iconName: "MapPin"
+  },
+  {
+    title: "School Pickups",
+    category: "Domestic Routine Protection",
+    description: "The safety of children is paramount. Logging school zones, activity drop-offs, and relative playground coordinates exposes critical domestic patterns. Pupil travel logs should never leave your physical vehicle computer.",
+    iconName: "Shield"
+  },
+  {
+    title: "Urban Driving",
+    category: "Civic Transit Isolation",
+    description: "Cities are dense with wireless tracking clusters and smart towers. Navigating high-traffic lanes tracks you across every toll lane, shopping stop, and corner. A local diagnostic firewall blocks passive telemetry collection.",
+    iconName: "Layers"
+  },
+  {
+    title: "Long Highway Travel",
+    category: "Interstate Path Anonymization",
+    description: "Vast expanses of empty asphalt are perfect for open-road freedom. But continuous cellular networks map speed and timing metrics to build permanent remote trails. Volatile local RAM keeps your tracks anonymous.",
+    iconName: "Network"
+  }
+];
+
+export const APPROACH_AIM: ApproachItem[] = [
+  {
+    title: "Explain things clearly",
+    description: "We translate complex automotive computer codes into humble, straightforward statements that prioritize user understanding."
+  },
+  {
+    title: "Encourage awareness",
+    description: "We reveal what information is generated by active systems so drivers can make fully informed decisions."
+  },
+  {
+    title: "Promote transparency",
+    description: "We document system configurations and database parameters openly to build trust through verifiable facts."
+  },
+  {
+    title: "Use simple language",
+    description: "We avoid dry jargon, legalistic fatigue, and marketing hype to provide comfortable, educational manuals."
+  },
+  {
+    title: "Help drivers learn",
+    description: "We publish free diagnostics guides, compatibility reports, and structural diagrams to democratize technical literacy."
+  },
+  {
+    title: "Respect privacy",
+    description: "We treat local containment as our absolute non-negotiable engineering baseline for every new accessory concept."
+  }
+];
+
+export const APPROACH_AVOID: ApproachItem[] = [
+  {
+    title: "Fear-based messaging",
+    description: "We reject alarmist warnings, exaggerated safety threats, and panic-inducing alerts designed to manipulate behavior."
+  },
+  {
+    title: "Unnecessary complexity",
+    description: "We design out complicated submenus, multi-step configurations, and confusing pathways that exhaust driver patience."
+  },
+  {
+    title: "Confusing terminology",
+    description: "We say no to seventy-page agreements, fine print, and opaque formulations that hide background cell-uploads."
+  },
+  {
+    title: "Privacy buzzwords",
+    description: "We skip flashy marketing speech, empty compliance branding, and vague buzzwords used to normalize default tracking."
+  },
+  {
+    title: "Technical overload",
+    description: "We refuse to hide behind engineering metrics or crowd dashboard displays with unrequested technical telemetry."
+  },
+  {
+    title: "Hidden explanations",
+    description: "We do not bury limitations, network dependency disclaimers, or design choices inside distant footnotes."
+  }
+];
+
+export const PRIVACY_PRINCIPLES: PrivacyPrinciple[] = [
+  {
+    title: "Clarity First",
+    subtitle: "Plain English Delivery",
+    description: "System alerts and diagnosis writeups are designed to be immediately understood by any family member, stripped of legalistic jargon.",
+    iconName: "Eye"
+  },
+  {
+    title: "Awareness Matters",
+    subtitle: "Visual Diagnostic Feed",
+    description: "You cannot steer what you cannot see. We present clear maps showing active system parameters and data boundaries in real-time.",
+    iconName: "Sliders"
+  },
+  {
+    title: "Transparency Builds Trust",
+    subtitle: "Verifiable Configurations",
+    description: "We publish open structural definitions and database schemas so safety advocates can inspect and verify our system architecture.",
+    iconName: "ShieldCheck"
+  },
+  {
+    title: "Privacy Is A Design Choice",
+    subtitle: "Absolute Container Standards",
+    description: "Local processing must be built directly into the software blueprint, securing driver assets at the foundational layer.",
+    iconName: "Cpu"
+  },
+  {
+    title: "Simplicity Over Complexity",
+    subtitle: "Intentional Modular Layouts",
+    description: "Eliminating superfluous network check-ins is a design victory. We build with elegant restraint to focus on what you actually need.",
+    iconName: "Layers"
+  },
+  {
+    title: "Drivers Come First",
+    subtitle: "Cabin Sovereignty Priority",
+    description: "The individual holding the steering wheel is the absolute administrator of the cabin. Digital systems must support the driver, not remote platforms.",
+    iconName: "Car"
   }
 ];

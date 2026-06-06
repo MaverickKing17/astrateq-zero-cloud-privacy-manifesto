@@ -47,7 +47,11 @@ import {
   RESOURCES,
   FAQ_ITEMS,
   FAQItem,
-  ResourceItem
+  ResourceItem,
+  PRIVACY_MATTERS_CARDS,
+  APPROACH_AIM,
+  APPROACH_AVOID,
+  PRIVACY_PRINCIPLES
 } from './data';
 const heroBg = "/src/assets/images/astrateq_hero_1780767332439.png";
 
@@ -58,7 +62,7 @@ export default function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Interactive Features State
-  const [selectedSensor, setSelectedSensor] = useState<string>('gps');
+  const [selectedSensor, setSelectedSensor] = useState<string>('sensors');
   const [simulationMode, setSimulationMode] = useState<'local' | 'cloud'>('local');
   const [flippedQuestion, setFlippedQuestion] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
@@ -67,24 +71,17 @@ export default function App() {
   
   // Modals & Resource center
   const [activeResource, setActiveResource] = useState<ResourceItem | null>(null);
-  const [quizScore, setQuizScore] = useState<number | null>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
-
-  // Myth-by-myth state
-  const [activeMythIdx, setActiveMythIdx] = useState<number>(0);
 
   // Refs for navigation scrolling
   const sectionRefs = {
     hero: useRef<HTMLDivElement>(null),
-    problem: useRef<HTMLDivElement>(null),
-    beliefs: useRef<HTMLDivElement>(null),
     zerocloud: useRef<HTMLDivElement>(null),
+    whyprivacy: useRef<HTMLDivElement>(null),
+    beliefs: useRef<HTMLDivElement>(null),
     control: useRef<HTMLDivElement>(null),
     questions: useRef<HTMLDivElement>(null),
-    approach: useRef<HTMLDivElement>(null),
-    myths: useRef<HTMLDivElement>(null),
     commitments: useRef<HTMLDivElement>(null),
-    future: useRef<HTMLDivElement>(null),
     resources: useRef<HTMLDivElement>(null),
     faq: useRef<HTMLDivElement>(null),
     final: useRef<HTMLDivElement>(null),
@@ -166,7 +163,7 @@ export default function App() {
     window.print();
   };
 
-  // Functional: Download PDF (trigger print dialog where users select Save as PDF, or output as markdown bundle)
+  // Functional: Download PDF
   const handleDownloadPDF = () => {
     showToast("Opening system print dashboard. Select 'Save as PDF' to export this publication.");
     setTimeout(() => {
@@ -272,19 +269,19 @@ export default function App() {
           {/* Desktop Navigation Link Toggles */}
           <nav className="hidden lg:flex items-center gap-1.5 text-xs font-mono">
             {[
-              { id: 'problem', label: 'The Problem' },
-              { id: 'beliefs', label: 'Beliefs' },
-              { id: 'zerocloud', label: 'Zero-Cloud' },
-              { id: 'questions', label: 'Questions' },
-              { id: 'approach', label: 'Our Approach' },
-              { id: 'myths', label: 'Myths' },
+              { id: 'whyprivacy', label: 'Why Privacy Matters' },
+              { id: 'beliefs', label: 'Drivers Deserve Clarity' },
+              { id: 'zerocloud', label: 'What Zero-Cloud Means' },
+              { id: 'control', label: 'Driver Control' },
+              { id: 'questions', label: 'Common Questions' },
+              { id: 'commitments', label: 'Our Commitments' },
               { id: 'resources', label: 'Resources' },
               { id: 'faq', label: 'FAQ' },
             ].map((link) => (
               <button
                 key={link.id}
                 onClick={() => scrollToSection(link.id as any)}
-                className={`px-3 py-1.5 rounded transition-all duration-200 uppercase tracking-wider text-[11px] ${
+                className={`px-3 py-1.5 rounded transition-all duration-200 uppercase tracking-wider text-[11px] font-bold ${
                   activeSection === link.id
                     ? 'text-brand-accent bg-[#00D4FF]/10 border border-[#00D4FF]/40'
                     : 'text-gray-400 hover:text-white hover:bg-slate-900/.5 border border-transparent'
@@ -351,14 +348,14 @@ export default function App() {
             >
               <div className="p-4 grid grid-cols-2 gap-2 text-xs">
                 {[
-                  { id: 'problem', label: 'The Problem' },
-                  { id: 'beliefs', label: 'Our Beliefs' },
-                  { id: 'zerocloud', label: 'What is Zero-Cloud' },
-                  { id: 'questions', label: 'Core Questions' },
-                  { id: 'approach', label: 'Design Approach' },
-                  { id: 'myths', label: 'Common Myths' },
-                  { id: 'resources', label: 'Resource Center' },
-                  { id: 'faq', label: '20 FAQs' },
+                  { id: 'whyprivacy', label: 'Why Privacy Matters' },
+                  { id: 'beliefs', label: 'Drivers Deserve Clarity' },
+                  { id: 'zerocloud', label: 'What Zero-Cloud Means' },
+                  { id: 'control', label: 'Driver Control' },
+                  { id: 'questions', label: 'Common Questions' },
+                  { id: 'commitments', label: 'Our Commitments' },
+                  { id: 'resources', label: 'Resources' },
+                  { id: 'faq', label: 'FAQ' },
                 ].map((link) => (
                   <button
                     key={link.id}
@@ -468,7 +465,7 @@ export default function App() {
               id="hero-cta-box"
             >
               <button
-                onClick={() => scrollToSection('problem')}
+                onClick={() => scrollToSection('zerocloud')}
                 className="bg-gradient-to-r from-[#00D4FF] to-[#00aaff] text-brand-bg px-7 py-3 rounded font-mono font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 hover:opacity-95 shadow-[0_0_20px_rgba(0,212,255,0.3)] hover:shadow-[0_0_25px_rgba(0,212,255,0.55)] transition-all cursor-pointer group"
                 id="cta-explore-manifesto"
               >
@@ -494,225 +491,7 @@ export default function App() {
 
 
         {/* =======================================
-            SECTION 2: THE PROBLEM (Headline, sensors/connectivity list, simple English, no fear tactics)
-           ======================================= */}
-        <section 
-          ref={sectionRefs.problem} 
-          id="problem" 
-          className="py-16 border-t border-blue-950 mb-20 scroll-mt-24"
-        >
-          <div className="grid md:grid-cols-12 gap-12 items-start" id="problem-grid">
-            
-            {/* Outline editorial segment */}
-            <div className="md:col-span-5 flex flex-col">
-              <span className="font-mono text-xs text-brand-accent tracking-widest uppercase mb-2">Section 01 // The Reality</span>
-              <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-white tracking-tight mb-6 leading-tight">
-                The Modern Vehicle Has Changed.
-              </h2>
-              <div className="space-y-4 text-sm text-gray-400 sm:text-base leading-relaxed">
-                <p>
-                  Today’s automobile is not just an assembly of steel, gears, and fuel injectors. It is a highly specialized computing mainframe on wheels.
-                </p>
-                <p>
-                  Vehicles now contain complex networks of sensors, computers, algorithms, operating software, cellular diagnostic telemetry, and diagnostic systems. All these cooperate to make steering easier and braking faster.
-                </p>
-                <p className="border-l-2 border-brand-accent pl-4 text-white font-medium bg-[#00D4FF]/5 py-2 pr-2 rounded">
-                  Cars generate immense streams of personal driver information — but most drivers don’t realize how much, or where those bytes go.
-                </p>
-              </div>
-            </div>
-
-            {/* Interactive Sensor Explaner Widget (Aesthetic & Practical) */}
-            <div className="md:col-span-1" />
-            <div className="md:col-span-6 bg-brand-card rounded-2xl border border-blue-900/30 p-6 md:p-8" id="problem-interactive-card">
-              <div className="flex items-center gap-2.5 mb-6">
-                <Car className="text-brand-accent w-5 h-5 flex-shrink-0" />
-                <span className="font-mono text-[11px] text-brand-accent-secondary tracking-widest uppercase">Select Vehicle System Components</span>
-              </div>
-              <p className="text-xs text-slate-400 mb-4 font-sans italic">
-                Each technological upgrade serves driver functionality, but creates a rich footprint. Toggle components below to understand how they gather measurements:
-              </p>
-
-              {/* Toggle row */}
-              <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-5 gap-2 mb-6" id="problem-sensor-toggles">
-                {[
-                  { id: 'sensors', label: 'Sensors', desc: 'Accelerometers, steering angles, brake line pressures.' },
-                  { id: 'computers', label: 'Computers', desc: 'Central Electronic Module, drive controls, localized chips.' },
-                  { id: 'software', label: 'Software', desc: 'Firmware operating active safety logic and diagnostics.' },
-                  { id: 'connectivity', label: 'Connectivity', desc: 'Built-in LTE sims, vehicle-to-everything (V2X) beacons.' },
-                  { id: 'diagnostics', label: 'Diagnostics', desc: 'Diagnostic Trouble Codes (DTCs), emissions logs.' },
-                ].map((s) => (
-                  <button
-                    key={s.id}
-                    onClick={() => setSelectedSensor(s.id)}
-                    className={`px-2.5 py-2 rounded text-[11px] font-mono uppercase tracking-wider text-center border transition-all ${
-                      selectedSensor === s.id
-                        ? 'border-[#00D4FF] bg-[#00D4FF]/10 text-[#00D4FF]'
-                        : 'border-blue-950 bg-slate-950/50 text-gray-400 hover:text-white'
-                    }`}
-                  >
-                    {s.label}
-                  </button>
-                ))}
-              </div>
-
-              {/* Dynamic translator box */}
-              <div className="bg-slate-950/80 rounded-xl p-5 border border-blue-900/30 font-sans" id="problem-dynamic-viewer">
-                {selectedSensor === 'sensors' && (
-                  <div>
-                    <h4 className="text-sm font-semibold text-white mb-2 flex items-center gap-1.5 font-heading">
-                      <Cpu className="text-brand-accent w-4 h-4" /> Inertial Sensors & Actuators
-                    </h4>
-                    <p className="text-xs text-brand-accent-secondary mb-3">Logs acceleration forces, brake application, and steering ratios.</p>
-                    <div className="space-y-3.5 text-xs text-gray-400">
-                      <div>
-                        <strong className="text-white block font-mono text-[10px] text-red-400 uppercase">Standard Corporate Default:</strong>
-                        Continuous metrics are uploaded via cell link to score your driving patterns, often sold to insurers to modify pricing.
-                      </div>
-                      <div className="border-t border-blue-950 pt-2.5">
-                        <strong className="text-brand-accent block font-mono text-[10px] uppercase">The On-Vehicle Alternative:</strong>
-                        Signals reside locally inside transient RAM buffers to guide anti-locking brakes. Memory is wiped immediately when the car turns off.
-                      </div>
-                    </div>
-                  </div>
-                )}
-                {selectedSensor === 'computers' && (
-                  <div>
-                    <h4 className="text-sm font-semibold text-white mb-2 flex items-center gap-1.5 font-heading">
-                      <Cpu className="text-brand-accent w-4 h-4" /> Onboard Edge Modules
-                    </h4>
-                    <p className="text-xs text-brand-accent-secondary mb-3">Sinks of microcontrollers controlling separate physical vehicle blocks.</p>
-                    <div className="space-y-3.5 text-xs text-gray-400">
-                      <div>
-                        <strong className="text-white block font-mono text-[10px] text-red-400 uppercase">Standard Corporate Default:</strong>
-                        System status reports are serialized, cryptographically linked to your identity, and sent to remote servers.
-                      </div>
-                      <div className="border-t border-blue-950 pt-2.5">
-                        <strong className="text-brand-accent block font-mono text-[10px] uppercase">The On-Vehicle Alternative:</strong>
-                        Computing is self-contained. Troubleshooting reports are readable strictly via the local physical port by your permission.
-                      </div>
-                    </div>
-                  </div>
-                )}
-                {selectedSensor === 'software' && (
-                  <div>
-                    <h4 className="text-sm font-semibold text-white mb-2 flex items-center gap-1.5 font-heading">
-                      <Cpu className="text-brand-accent w-4 h-4" /> Infotainment & Dashboard Applets
-                    </h4>
-                    <p className="text-xs text-brand-accent-secondary mb-3">Operating interfaces, dials, touchscreen controls, and audio settings.</p>
-                    <div className="space-y-3.5 text-xs text-gray-400">
-                      <div>
-                        <strong className="text-white block font-mono text-[10px] text-red-400 uppercase">Standard Corporate Default:</strong>
-                        Apps monitor user click rates, cabin heating selections, and travel targets to construct consumer behavioral maps.
-                      </div>
-                      <div className="border-t border-blue-950 pt-2.5">
-                        <strong className="text-brand-accent block font-mono text-[10px] uppercase">The On-Vehicle Alternative:</strong>
-                        Modular code structures with offline databases ensure dashboard screens operate perfectly without requesting external network check-ins.
-                      </div>
-                    </div>
-                  </div>
-                )}
-                {selectedSensor === 'connectivity' && (
-                  <div>
-                    <h4 className="text-sm font-semibold text-white mb-2 flex items-center gap-1.5 font-heading">
-                      <Cpu className="text-brand-accent w-4 h-4" /> Cellular Network Modem (LTE/5G)
-                    </h4>
-                    <p className="text-xs text-brand-accent-secondary mb-3">Handles continuous background wireless over-the-air cell connections.</p>
-                    <div className="space-y-3.5 text-xs text-gray-400">
-                      <div>
-                        <strong className="text-white block font-mono text-[10px] text-red-400 uppercase">Standard Corporate Default:</strong>
-                        Car maintains persistent pings with cellular towers, creating an involuntary geographic outline of travel paths.
-                      </div>
-                      <div className="border-t border-blue-950 pt-2.5">
-                        <strong className="text-brand-accent block font-mono text-[10px] uppercase">The On-Vehicle Alternative:</strong>
-                        A clear physical or digital disconnect key is provided, allowing the driver to go entirely quiet without safety loss.
-                      </div>
-                    </div>
-                  </div>
-                )}
-                {selectedSensor === 'diagnostics' && (
-                  <div>
-                    <h4 className="text-sm font-semibold text-white mb-2 flex items-center gap-1.5 font-heading">
-                      <Cpu className="text-brand-accent w-4 h-4" /> Emission & Diagnostic Logs
-                    </h4>
-                    <p className="text-xs text-brand-accent-secondary mb-3">Diagnostic trouble codes (DTCs), fluid temperatures, cylinder volumes.</p>
-                    <div className="space-y-3.5 text-xs text-gray-400">
-                      <div>
-                        <strong className="text-white block font-mono text-[10px] text-red-400 uppercase">Standard Corporate Default:</strong>
-                        Mechanical error alerts bypass the dashboard screen, alerting corporate support nodes before you are notified.
-                      </div>
-                      <div className="border-t border-blue-950 pt-2.5">
-                        <strong className="text-brand-accent block font-mono text-[10px] uppercase">The On-Vehicle Alternative:</strong>
-                        Vehicle states are translated into conversational plain English, instantly presented to you on-dash first.
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        </section>
-
-
-        {/* =======================================
-            SECTION 3: OUR BELIEF (Headline, 4 Philosophy Cards: Transparency, Privacy, Simple Tech, Responsible Innovation)
-           ======================================= */}
-        <section 
-          ref={sectionRefs.beliefs} 
-          id="beliefs" 
-          className="py-16 border-t border-blue-950 mb-20 scroll-mt-24"
-        >
-          <div className="max-w-3xl mb-12" id="beliefs-title-box">
-            <span className="font-mono text-xs text-brand-accent tracking-widest uppercase mb-2">Section 02 // Core Foundation</span>
-            <h2 className="text-3xl md:text-5xl font-heading font-extrabold text-white tracking-tight leading-tight">
-              Drivers Deserve Clarity.
-            </h2>
-            <p className="text-gray-400 text-sm sm:text-base mt-4 leading-relaxed">
-              We stand against the passive normalization of surveillance in transportation. These four principles define Astrateq’s design philosophy for vehicle information safety.
-            </p>
-          </div>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6" id="philosophy-cards-grid">
-            {PHILOSOPHY_CARDS.map((card, idx) => {
-              // Custom icon selection helper
-              let CardIcon = Eye;
-              if (card.iconName === 'ShieldAlert') CardIcon = Shield;
-              if (card.iconName === 'Sliders') CardIcon = Sliders;
-              if (card.iconName === 'Sparkles') CardIcon = Sparkles;
-              
-              return (
-                <div 
-                  key={idx}
-                  className="bg-[#0B1F3A] border border-blue-900/25 hover:border-[#00D4FF]/40 rounded-2xl p-6 transition-all hover:-translate-y-1 hover:shadow-[0_8px_20px_rgba(0,212,255,0.05)] flex flex-col justify-between h-full card-print group"
-                  id={`philosophy-card-${idx}`}
-                >
-                  <div>
-                    <div className="w-10 h-10 rounded-lg bg-[#071120] border border-blue-900/40 flex items-center justify-center text-brand-accent mb-4 group-hover:bg-[#00D4FF]/5 group-hover:border-[#00D4FF]/50 transition-all">
-                      <CardIcon className="w-5 h-5" />
-                    </div>
-                    <h3 className="font-heading font-bold text-white text-base mb-1.5 uppercase tracking-wide">
-                      {card.title}
-                    </h3>
-                    <p className="font-mono text-[10px] text-brand-accent uppercase tracking-widest mb-3">
-                      {card.tagline}
-                    </p>
-                    <p className="text-xs text-gray-400 leading-relaxed font-sans mt-2">
-                      {card.description}
-                    </p>
-                  </div>
-                  
-                  <span className="text-[10px] font-mono text-blue-900/70 border-t border-blue-950 mt-6 pt-2 block uppercase tracking-widest">
-                    Astrateq Standard // 0{idx + 1}
-                  </span>
-                </div>
-              );
-            })}
-          </div>
-        </section>
-
-
-        {/* =======================================
-            SECTION 4: WHAT DOES ZERO-CLOUD MEAN? (Educational, simulator comparing Local vs Cloud flow)
+            SECTION 2: WHAT DOES ZERO-CLOUD MEAN?
            ======================================= */}
         <section 
           ref={sectionRefs.zerocloud} 
@@ -721,20 +500,20 @@ export default function App() {
         >
           <div className="grid lg:grid-cols-12 gap-12 items-center" id="zerocloud-grid">
             
-            <div className="lg:col-span-5">
-              <span className="font-mono text-xs text-brand-accent tracking-widest uppercase mb-2">Section 03 // Definition & Design Standard</span>
-              <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-white tracking-tight mb-6">
+            <div className="lg:col-span-5 text-left">
+              <span className="font-mono text-xs text-brand-accent tracking-widest uppercase mb-2 block font-bold">Section 01 // Definition & Design Standard</span>
+              <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-white tracking-tight mb-6 uppercase">
                 What Does Zero-Cloud Mean?
               </h2>
-              <p className="text-gray-400 text-sm sm:text-base leading-relaxed mb-4 font-sans">
-                To be clinical in our transparency: <strong className="text-white">DO NOT confuse this with a claims sheet.</strong> We do not offer absolute promises that Astrateq accessories are fully disconnected from all networks or completely serverless in every context.
+              <p className="text-gray-300 text-sm sm:text-base leading-relaxed mb-6 font-sans">
+                To be clinical in our transparency: <strong className="text-white">do not confuse this with a claims sheet.</strong> We do not offer absolute promises that Astrateq accessories are fully disconnected from all networks or completely serverless in every context. Rather, Zero-Cloud is a design philosophy that prioritizes keeping information as close to the driver as reasonably possible.
               </p>
-              <div className="bg-[#0B1F3A]/60 border-l-4 border-brand-accent p-4 rounded-r-xl mb-6 font-sans">
-                <p className="text-xs italic text-[#D6DCE5] leading-relaxed">
+              <div className="bg-[#0B1F3A]/60 border border-[#00D4FF]/30 p-5 rounded-xl mb-6 font-sans shadow-[0_0_15px_rgba(0,212,255,0.15)] flex flex-col justify-start text-left">
+                <p className="text-xs italic text-slate-100 leading-relaxed font-medium">
                   &ldquo;Zero-Cloud is a design philosophy that prioritizes keeping information as close to the driver as reasonably possible.&rdquo;
                 </p>
               </div>
-              <p className="text-xs text-slate-500 leading-relaxed font-sans mb-8">
+              <p className="text-xs text-slate-300 leading-relaxed font-sans mb-8">
                 It guides our engineering choices—demanding that local offline databases handle standard functions and that external networks are treated as opt-in supplements, not automatic default connections.
               </p>
 
@@ -742,7 +521,7 @@ export default function App() {
               <div className="flex gap-2.5 font-mono text-xs" id="simulation-mode-selectors">
                 <button
                   onClick={() => setSimulationMode('local')}
-                  className={`flex-1 py-3 px-4 rounded border uppercase tracking-wider text-center font-bold flex items-center justify-center gap-1.5 transition-all ${
+                  className={`flex-1 py-3 px-4 rounded border uppercase tracking-wider text-center font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
                     simulationMode === 'local'
                       ? 'bg-[#00D4FF] text-brand-bg border-[#00D4FF]'
                       : 'bg-transparent text-gray-400 border-blue-950 hover:text-white'
@@ -753,7 +532,7 @@ export default function App() {
                 </button>
                 <button
                   onClick={() => setSimulationMode('cloud')}
-                  className={`flex-1 py-3 px-4 rounded border uppercase tracking-wider text-center font-bold flex items-center justify-center gap-1.5 transition-all ${
+                  className={`flex-1 py-3 px-4 rounded border uppercase tracking-wider text-center font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
                     simulationMode === 'cloud'
                       ? 'bg-rose-500/10 text-rose-400 border-rose-500/40'
                       : 'bg-transparent text-gray-400 border-blue-950 hover:text-white'
@@ -767,15 +546,15 @@ export default function App() {
 
             {/* Interactive Data Flow Simulator Column */}
             <div className="lg:col-span-7">
-              <div className="bg-[#0B1F3A] rounded-2xl border border-blue-900/30 p-6 md:p-8 relative overflow-hidden" id="flow-comparison-simulator">
+              <div className="bg-[#0B1F3A] rounded-2xl border border-blue-900/30 p-6 md:p-8 relative overflow-hidden card-print" id="flow-comparison-simulator">
                 
-                {/* Visual canvas representating sensor packets */}
+                {/* Visual canvas representing sensor packets */}
                 <div className="bg-slate-950/80 rounded-xl p-5 border border-blue-950 mb-6 font-mono text-xs h-60 flex flex-col justify-between relative overflow-hidden">
                   
                   {/* Title and indicators */}
                   <div className="flex justify-between items-center z-10">
-                    <span className="text-[10px] text-gray-500 tracking-wider uppercase">Active Schematic Diagram</span>
-                    <span className={`px-2 py-0.5 rounded text-[9px] uppercase tracking-widest inline-flex items-center gap-1 ${
+                    <span className="text-[10px] text-gray-400 tracking-wider uppercase font-bold">Active Schematic Diagram</span>
+                    <span className={`px-2 py-0.5 rounded text-[9px] uppercase tracking-widest inline-flex items-center gap-1 font-bold ${
                       simulationMode === 'local' ? 'bg-green-500/10 text-green-400 border border-green-500/30' : 'bg-red-500/10 text-rose-400 border border-rose-500/30'
                     }`}>
                       <span className={`w-1.5 h-1.5 rounded-full ${simulationMode === 'local' ? 'bg-green-400' : 'bg-rose-500'} animate-ping`}></span>
@@ -791,13 +570,13 @@ export default function App() {
                       <div className="w-12 h-12 rounded-full bg-slate-900 border border-blue-900/60 flex items-center justify-center text-brand-accent">
                         <Car className="w-5 h-5 animate-pulse" />
                       </div>
-                      <span className="text-[10px] text-gray-400 uppercase text-center font-sans">Cabin Sensors</span>
+                      <span className="text-[10px] text-gray-300 uppercase text-center font-sans font-bold font-sans">Cabin Sensors</span>
                     </div>
 
                     {/* Animated Connection Arrow */}
                     <div className="flex-grow max-w-[100px] h-0.5 bg-dashed border-t-2 border-dashed border-blue-900/40 relative flex items-center justify-center">
                       <div className={`absolute w-2.5 h-2.5 rounded-full ${simulationMode === 'local' ? 'bg-brand-accent' : 'bg-rose-400'} animate-ping`} />
-                      <div className="font-mono text-[8px] text-slate-500 absolute -top-4 uppercase">telemetry</div>
+                      <div className="font-mono text-[8px] text-slate-400 absolute -top-4 uppercase font-bold">telemetry</div>
                     </div>
 
                     {/* Simulation Target (Vehicle vs Cloud) */}
@@ -807,52 +586,287 @@ export default function App() {
                           <Cpu className="w-6 h-6" />
                         </div>
                         <span className="text-[10px] text-brand-accent uppercase font-bold text-center font-sans">Local OBD-Unit</span>
-                        <div className="absolute text-[8px] font-mono text-green-400 bottom-[-16px] uppercase tracking-tight">Secured physically</div>
+                        <div className="absolute text-[8px] font-mono text-green-400 bottom-[-16px] uppercase tracking-tight font-bold">Secured physically</div>
                       </div>
                     ) : (
                       <div className="flex flex-col items-center gap-1.5 relative">
                         <div className="w-14 h-14 rounded-full bg-gradient-to-tr from-rose-500/20 to-slate-900 border-2 border-rose-500 flex items-center justify-center text-rose-400 shadow-[0_0_15px_rgba(239,68,68,0.25)]">
                           <Server className="w-6 h-6 animate-bounce" />
                         </div>
-                        <span className="text-[10px] text-rose-400 uppercase font-bold text-center font-sans">Corporate Cloud</span>
-                        <div className="absolute text-[8px] font-mono text-rose-400 bottom-[-16px] uppercase tracking-tight">Multi-Device exposure</div>
+                        <span className="text-[10px] text-rose-400 uppercase font-bold text-center font-sans font-bold">Corporate Cloud</span>
+                        <div className="absolute text-[8px] font-mono text-rose-400 bottom-[-16px] uppercase tracking-tight font-bold">Multi-Device exposure</div>
                       </div>
                     )}
                   </div>
 
                   {/* Summary overlay status */}
-                  <div className="border-t border-blue-950 pt-2 flex items-center justify-between text-gray-500 text-[10px] z-10" id="sim-status-footer">
-                    <span>Target: {simulationMode === 'local' ? 'Owner Physical Asset' : 'Central Databases outside CA'}</span>
-                    <span>Status: {simulationMode === 'local' ? '0ms transmission leak' : 'Potential 3rd-party intercept'}</span>
+                  <div className="border-t border-blue-950 pt-2 flex items-center justify-between text-gray-400 text-[10px] z-10" id="sim-status-footer">
+                    <span className="font-sans font-medium">Target: {simulationMode === 'local' ? 'Owner Physical Asset' : 'Central Databases outside CA'}</span>
+                    <span className="font-sans font-medium">Status: {simulationMode === 'local' ? '0ms transmission leak' : 'Potential 3rd-party intercept'}</span>
                   </div>
                 </div>
 
                 {/* Structured descriptive text */}
-                <h4 className="font-heading font-medium text-white text-base mb-2 uppercase">
+                <h4 className="font-heading font-bold text-white text-base mb-2 uppercase text-left">
                   {simulationMode === 'local' ? VIRTUAL_COMPARISONS.local.title : VIRTUAL_COMPARISONS.cloud.title}
                 </h4>
-                <p className="font-mono text-xs text-[#00D4FF] uppercase tracking-widest mb-4">
+                <p className="font-mono text-xs text-[#00D4FF] uppercase tracking-widest mb-4 text-left font-bold">
                   {simulationMode === 'local' ? VIRTUAL_COMPARISONS.local.subtitle : VIRTUAL_COMPARISONS.cloud.subtitle}
                 </p>
 
-                <ul className="space-y-2 mb-6" id="simulator-points-list">
+                <ul className="space-y-2.5 mb-6 text-left" id="simulator-points-list">
                   {(simulationMode === 'local' ? VIRTUAL_COMPARISONS.local.points : VIRTUAL_COMPARISONS.cloud.points).map((point, k) => (
-                    <li key={k} className="flex items-start gap-2 text-xs text-gray-300 font-sans leading-relaxed">
+                    <li key={k} className="flex items-start gap-2 text-xs text-white font-sans leading-relaxed">
                       {simulationMode === 'local' ? (
                         <CheckCircle className="w-4 h-4 text-[#00D4FF] mt-0.5 shrink-0" />
                       ) : (
                         <AlertTriangle className="w-4 h-4 text-rose-400 mt-0.5 shrink-0" />
                       )}
-                      {point}
+                      <span>{point}</span>
                     </li>
                   ))}
                 </ul>
 
-                <div className="p-3 bg-slate-950/60 rounded-lg text-xs leading-relaxed text-slate-400 font-sans border border-blue-950 select-none">
-                  <strong className="text-white block font-mono text-[9px] uppercase tracking-wider mb-0.5">Optimal integration guidelines:</strong>
+                <div className="p-4 bg-slate-950/60 rounded-lg text-xs leading-relaxed text-slate-300 font-sans border border-blue-950 select-none text-left">
+                  <strong className="text-white block font-mono text-[9px] uppercase tracking-wider mb-1 font-bold">Optimal integration guidelines:</strong>
                   {simulationMode === 'local' ? VIRTUAL_COMPARISONS.local.idealFor : VIRTUAL_COMPARISONS.cloud.idealFor}
                 </div>
               </div>
+            </div>
+          </div>
+        </section>
+
+
+        {/* =======================================
+            SECTION 3: WHY PRIVACY MATTERS IN EVERYDAY LIFE
+           ======================================= */}
+        <section 
+          ref={sectionRefs.whyprivacy} 
+          id="whyprivacy" 
+          className="py-16 border-t border-blue-950 mb-20 scroll-mt-24"
+        >
+          <div className="max-w-3xl mb-12 text-left" id="whyprivacy-title-box">
+            <span className="font-mono text-xs text-brand-accent tracking-widest uppercase mb-2 block font-bold">Section 02 // Everyday Life Stories</span>
+            <h2 className="text-3xl md:text-5xl font-heading font-extrabold text-white tracking-tight leading-tight uppercase">
+              Why Privacy Matters In Everyday Life
+            </h2>
+            <p className="text-gray-300 text-sm sm:text-base mt-4 leading-relaxed font-sans">
+              Vehicular privacy is not a mathematical abstraction. It touches normal, familiar journeys—shielding your domestic details, routines, and quiet commutes without relying on anxiety-provoking claims.
+            </p>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-6" id="whyprivacy-cards-grid">
+            {PRIVACY_MATTERS_CARDS.map((card, idx) => {
+              let IconComp = Car;
+              if (card.iconName === 'MapPin') IconComp = MapPin;
+              if (card.iconName === 'Shield') IconComp = Shield;
+              if (card.iconName === 'Layers') IconComp = Layers;
+              if (card.iconName === 'Network') IconComp = Network;
+
+              return (
+                <div 
+                  key={idx}
+                  className="bg-brand-card rounded-2xl p-6 flex flex-col justify-between h-full card-print select-none text-left"
+                  id={`whyprivacy-card-${idx}`}
+                >
+                  <div>
+                    <div className="w-10 h-10 rounded-lg bg-[#071120] border border-blue-900/40 flex items-center justify-center text-[#00D4FF] mb-4">
+                      <IconComp className="w-5 h-5" />
+                    </div>
+                    <h3 className="font-heading font-bold text-white text-base mb-1 uppercase tracking-wide">
+                      {card.title}
+                    </h3>
+                    <p className="font-mono text-[9px] text-[#00D4FF] uppercase tracking-widest mb-3 font-bold">
+                      {card.category}
+                    </p>
+                    <p className="text-xs text-slate-300 leading-relaxed font-sans mt-2">
+                      {card.description}
+                    </p>
+                  </div>
+                  
+                  <span className="text-[9px] font-mono text-blue-900/80 border-t border-blue-950/60 mt-6 pt-2 block uppercase tracking-wider">
+                    Routine Shield
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+
+
+        {/* =======================================
+            SECTION 4: OUR BELIEF (Headline, 4 Philosophy Cards: Transparency, Privacy, Simple Tech, Responsible Innovation)
+           ======================================= */}
+        <section 
+          ref={sectionRefs.beliefs} 
+          id="beliefs" 
+          className="py-16 border-t border-blue-950 mb-20 scroll-mt-24"
+        >
+          <div className="max-w-3xl mb-12 text-left" id="beliefs-title-box">
+            <span className="font-mono text-xs text-brand-accent tracking-widest uppercase mb-2 block font-bold">Section 03 // Core Values</span>
+            <h2 className="text-3xl md:text-5xl font-heading font-extrabold text-white tracking-tight leading-tight uppercase">
+              Drivers Deserve Clarity.
+            </h2>
+            <p className="text-gray-300 text-sm sm:text-base mt-4 leading-relaxed font-sans">
+              We stand against the passive normalization of surveillance in transportation. These four principles define Astrateq’s design philosophy for vehicle information safety.
+            </p>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16" id="philosophy-cards-grid">
+            {PHILOSOPHY_CARDS.map((card, idx) => {
+              let CardIcon = Eye;
+              if (card.iconName === 'ShieldAlert') CardIcon = Shield;
+              if (card.iconName === 'Sliders') CardIcon = Sliders;
+              if (card.iconName === 'Sparkles') CardIcon = Sparkles;
+              
+              return (
+                <div 
+                  key={idx}
+                  className="bg-brand-card rounded-2xl p-6 flex flex-col justify-between h-full card-print group text-left"
+                  id={`philosophy-card-${idx}`}
+                >
+                  <div>
+                    <div className="w-10 h-10 rounded-lg bg-[#071120] border border-blue-900/40 flex items-center justify-center text-[#00D4FF] mb-4 group-hover:bg-[#00D4FF]/5 group-hover:border-[#00D4FF]/50 transition-all">
+                      <CardIcon className="w-5 h-5" />
+                    </div>
+                    <h3 className="font-heading font-bold text-white text-base mb-1.5 uppercase tracking-wide">
+                      {card.title}
+                    </h3>
+                    <p className="font-mono text-[10px] text-brand-accent uppercase tracking-widest mb-3 font-bold">
+                      {card.tagline}
+                    </p>
+                    <p className="text-xs text-slate-300 leading-relaxed font-sans mt-2">
+                      {card.description}
+                    </p>
+                  </div>
+                  
+                  <span className="text-[10px] font-mono text-blue-900/75 border-t border-blue-950 mt-6 pt-2 block uppercase tracking-widest font-bold">
+                    Value Core // {idx + 1}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* EDUCATIONAL CALLOUT BOX CTA */}
+          <div className="bg-[#0B1F3A]/40 border border-[#00D4FF]/30 rounded-2xl p-8 md:p-10 mb-16 relative overflow-hidden shadow-[0_0_15px_rgba(0,212,255,0.1)] flex flex-col md:flex-row items-center justify-between gap-6 text-left" id="educational-callout-panel">
+            <div className="max-w-xl text-left">
+              <span className="font-mono text-[10px] text-[#00D4FF] uppercase tracking-widest block mb-2 font-bold">Understanding Your Diagnostics</span>
+              <h3 className="text-xl md:text-2xl font-heading font-extrabold text-white mb-3 uppercase tracking-tight">
+                Want To Better Understand Your Vehicle?
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-sans">
+                Vehicles utilize dynamic, distinct connectivity pathways. Discovering which local diagnostics reports and computer networks are active on your model is the first step toward cabin privacy sovereignty. Read our detailed, transparent guide explaining compatibility, diagnostic wireframes, and safety protocols fully.
+              </p>
+            </div>
+            <div className="shrink-0 w-full md:w-auto">
+              <a 
+                href="https://guides.astrateqgadgets.com" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-[#00D4FF] text-[#071120] font-mono text-xs font-bold uppercase tracking-wider rounded shadow-[0_0_15px_rgba(0,212,255,0.25)] hover:bg-[#00D4FF]/90 transition-all cursor-pointer text-center font-bold"
+                id="btn-educational-cta"
+              >
+                Read Compatibility Guide
+                <ArrowRight className="w-4 h-4 stroke-[2.5]" />
+              </a>
+            </div>
+          </div>
+
+          {/* TWO-COLUMN DESIGN: WHAT WE AIM TO DO vs WHAT WE AVOID */}
+          <div className="grid md:grid-cols-2 gap-8 items-start mb-16" id="beliefs-aim-avoid-grid">
+            
+            {/* Column 1: Aims */}
+            <div className="bg-[#0B1F3A]/20 border border-[#00D4FF]/20 rounded-2xl p-6 md:p-8 card-print text-left" id="approach-pillar-aim-block">
+              <div className="flex items-center gap-2.5 mb-6">
+                <CheckCircle className="text-emerald-400 w-5 h-5 flex-shrink-0" />
+                <h3 className="font-heading font-bold text-white text-lg uppercase tracking-wide">What We Aim To Do</h3>
+              </div>
+              <p className="text-xs text-slate-400 font-sans italic mb-6">
+                We believe in providing proactive transparency and absolute clarity about vehicle computing signals:
+              </p>
+              <div className="grid gap-4">
+                {APPROACH_AIM.map((item, idx) => (
+                  <div key={idx} className="flex gap-3 text-left font-sans text-xs">
+                    <span className="font-mono text-[#00D4FF] mt-0.5 select-none font-bold">✓</span>
+                    <div>
+                      <strong className="text-white block font-heading text-xs uppercase mb-0.5">{item.title}</strong>
+                      <p className="text-[11px] text-slate-300 leading-relaxed">{item.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Column 2: Avoids */}
+            <div className="bg-[#0B1F3A]/20 border border-[#00D4FF]/20 rounded-2xl p-6 md:p-8 card-print text-left" id="approach-pillar-avoid-block">
+              <div className="flex items-center gap-2.5 mb-6">
+                <AlertTriangle className="text-rose-400 w-5 h-5 flex-shrink-0" />
+                <h3 className="font-heading font-bold text-white text-lg uppercase tracking-wide">What We Avoid</h3>
+              </div>
+              <p className="text-xs text-slate-400 font-sans italic mb-6">
+                To build authentic corporate trust, we refuse standard deceptive practices and manipulative setups:
+              </p>
+              <div className="grid gap-4">
+                {APPROACH_AVOID.map((item, idx) => (
+                  <div key={idx} className="flex gap-3 text-left font-sans text-xs">
+                    <span className="font-mono text-rose-400 mt-0.5 select-none font-bold">✗</span>
+                    <div>
+                      <strong className="text-white block font-heading text-xs uppercase mb-0.5">{item.title}</strong>
+                      <p className="text-[11px] text-slate-300 leading-relaxed">{item.description}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* THE ASTRATEQ PRIVACY PRINCIPLES */}
+          <div className="mt-16 text-center" id="privacy-principles-block">
+            <span className="font-mono text-xs text-brand-accent tracking-widest uppercase mb-2 block font-bold">System Verification Blueprints</span>
+            <h3 className="text-2xl md:text-4xl font-heading font-extrabold text-white tracking-tight mb-4 uppercase">
+              The Astrateq Privacy Principles
+            </h3>
+            <p className="text-gray-300 text-xs sm:text-sm mb-10 max-w-2xl mx-auto font-sans leading-relaxed text-slate-300">
+              These six core parameters define how our design divisions formulate product ideas, build code schemas, and preserve driver protection values at the blueprint stage.
+            </p>
+
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 text-left">
+              {PRIVACY_PRINCIPLES.map((principle, idx) => {
+                let PrincipleIcon = Eye;
+                if (principle.iconName === 'Sliders') PrincipleIcon = Sliders;
+                if (principle.iconName === 'ShieldCheck') PrincipleIcon = ShieldCheck;
+                if (principle.iconName === 'Cpu') PrincipleIcon = Cpu;
+                if (principle.iconName === 'Layers') PrincipleIcon = Layers;
+                if (principle.iconName === 'Car') PrincipleIcon = Car;
+
+                return (
+                  <div 
+                    key={idx}
+                    className="bg-brand-card rounded-2xl p-6 flex flex-col justify-between h-full card-print group hover:scale-[1.01] transition-all"
+                    id={`principles-card-${idx}`}
+                  >
+                    <div>
+                      <div className="w-10 h-10 rounded-lg bg-[#071120] border border-blue-900/40 flex items-center justify-center text-[#00D4FF] mb-4 group-hover:bg-[#00D4FF]/5 group-hover:border-[#00D4FF]/50 transition-all">
+                        <PrincipleIcon className="w-5 h-5 text-brand-accent" />
+                      </div>
+                      <h4 className="font-heading font-bold text-white text-sm uppercase tracking-wide mb-1">
+                        {principle.title}
+                      </h4>
+                      <p className="font-mono text-[9px] text-emerald-400 uppercase tracking-widest mb-3 font-bold">
+                        {principle.subtitle}
+                      </p>
+                      <p className="text-xs text-slate-300 leading-relaxed font-sans mt-2">
+                        {principle.description}
+                      </p>
+                    </div>
+
+                    <span className="text-[10px] font-mono text-blue-900/60 border-t border-blue-950 mt-6 pt-2 block uppercase tracking-widest font-bold">
+                      Engineering Metric {idx + 1}
+                    </span>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </section>
@@ -992,121 +1006,6 @@ export default function App() {
 
 
         {/* =======================================
-            SECTION 7: THE ASTRATEQ APPROACH (Headline, educational mindset, transparency, Canadian context, responsible design)
-           ======================================= */}
-        <section 
-          ref={sectionRefs.approach} 
-          id="approach" 
-          className="py-16 border-t border-blue-950 mb-20 scroll-mt-24"
-        >
-          <div className="grid lg:grid-cols-12 gap-12 items-start" id="approach-grid">
-            
-            <div className="lg:col-span-5">
-              <span className="font-mono text-xs text-brand-accent tracking-widest uppercase mb-2">Section 06 // Operational Strategy</span>
-              <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-white tracking-tight mb-6">
-                Privacy-First Vehicle Intelligence
-              </h2>
-              <div className="space-y-4 text-sm text-gray-400 sm:text-base leading-relaxed font-sans">
-                <p>
-                  To change current industry standards, software must be rebuilt with an educational mindset. We design informational diagnostic readouts around transparency and absolute clarity.
-                </p>
-                <p>
-                  We are a Canadian company—committed to building software components that handle calculations locally. This is a practical baseline for extreme cold conditions and vast mountain coordinates where wireless signals are completely non-existent.
-                </p>
-                <p className="bg-slate-950/50 border border-blue-950 p-4 font-mono text-xs text-[#00D4FF] rounded-xl flex items-center gap-2.5">
-                  <span className="w-3.5 h-3.5 bg-red-600 rounded flex items-center justify-center text-[7px] text-white font-bold select-none uppercase shrink-0">CAN</span>
-                  Designed & structured securely for Canadian routes.
-                </p>
-              </div>
-            </div>
-
-            <div className="lg:col-span-1" />
-            <div className="lg:col-span-6 space-y-4" id="approach-pillars-column">
-              {APPROACH_PILLARS.map((p, idx) => (
-                <div 
-                  key={idx}
-                  className="bg-[#0B1F3A] border border-blue-900/15 p-5 md:p-6 rounded-2xl relative overflow-hidden flex items-start gap-4 card-print group hover:border-[#00D4FF]/30 transition-colors"
-                  id={`approach-pillar-${idx}`}
-                >
-                  <div className="w-8 h-8 rounded-full bg-slate-950 border border-blue-900/40 text-[11px] text-[#00D4FF] font-mono flex items-center justify-center shrink-0 select-none group-hover:bg-[#00D4FF]/10 transition-colors">
-                    0{idx+1}
-                  </div>
-                  <div>
-                    <h3 className="font-heading font-bold text-white text-sm uppercase tracking-wide">
-                      {p.title}
-                    </h3>
-                    <p className="font-mono text-[9px] text-brand-accent-secondary uppercase tracking-widest mb-1.5">
-                      {p.subtitle}
-                    </p>
-                    <p className="text-xs text-gray-400 leading-relaxed font-sans">
-                      {p.description}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-
-        {/* =======================================
-            SECTION 8: COMMON MYTHS (Interactive Myth vs Reality display)
-           ======================================= */}
-        <section 
-          ref={sectionRefs.myths} 
-          id="myths" 
-          className="py-16 border-t border-blue-950 mb-20 scroll-mt-24"
-        >
-          <div className="max-w-3xl mb-12" id="myths-title-box">
-            <span className="font-mono text-xs text-brand-accent tracking-widest uppercase mb-2">Section 07 // Philosophical Correction</span>
-            <h2 className="text-3xl md:text-5xl font-heading font-extrabold text-white tracking-tight leading-tight">
-              Common Myths
-            </h2>
-            <p className="text-gray-400 text-sm sm:text-base mt-2 leading-relaxed font-sans">
-              Opaque design choices have led to broad misunderstandings surrounding digital safety. Let’s clarify these terms immediately:
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-6" id="myths-grid-cards">
-            {MYTH_REALITIES.map((mythBlock, idx) => (
-              <div 
-                key={idx}
-                className="bg-slate-950/30 border border-blue-950 hover:border-blue-900/40 p-6 rounded-2xl flex flex-col justify-between h-full hover:bg-slate-950/50 transition-all card-print"
-                id={`myth-card-${idx}`}
-              >
-                <div>
-                  {/* Absolute Myth */}
-                  <div className="flex items-center gap-2 mb-3 bg-rose-500/5 px-2.5 py-1.5 rounded-lg border border-rose-500/25">
-                    <AlertTriangle className="text-rose-400 w-4 h-4 shrink-0" />
-                    <span className="font-mono text-[10px] text-rose-400 uppercase font-bold tracking-widest">Myth Standard // {idx+1}</span>
-                  </div>
-                  <h3 className="font-sans font-semibold text-slate-200 text-sm mb-5 leading-normal italic">
-                    &ldquo;{mythBlock.myth}&rdquo;
-                  </h3>
-
-                  {/* Absolute Reality */}
-                  <div className="flex items-center gap-2 mb-3 bg-[#00D4FF]/5 px-2.5 py-1.5 rounded-lg border border-[#00D4FF]/35">
-                    <CheckCircle className="text-[#00D4FF] w-4 h-4 shrink-0" />
-                    <span className="font-mono text-[10px] text-[#00D4FF] uppercase font-bold tracking-widest">Astrateq Reality</span>
-                  </div>
-                  <h4 className="font-heading font-bold text-white text-sm mb-3 uppercase tracking-wide">
-                    {mythBlock.reality}
-                  </h4>
-                  <p className="text-xs text-gray-400 leading-relaxed font-sans">
-                    {mythBlock.explanation}
-                  </p>
-                </div>
-
-                <div className="text-[8px] font-mono text-gray-500 border-t border-blue-950 mt-6 pt-2 uppercase text-right">
-                  System Audit Verified
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-
-        {/* =======================================
             SECTION 9: OUR COMMITMENTS (Headline, premium commitment cards)
            ======================================= */}
           <section 
@@ -1151,65 +1050,7 @@ export default function App() {
           </section>
 
 
-        {/* =======================================
-            SECTION 10: LOOKING FORWARD (Discuss future trends, no product promises)
-           ======================================= */}
-        <section 
-          ref={sectionRefs.future} 
-          id="future" 
-          className="py-16 border-t border-blue-950 mb-20 scroll-mt-24"
-        >
-          <div className="grid lg:grid-cols-12 gap-12 items-center" id="future-grid">
-            
-            <div className="lg:col-span-1" />
-            <div className="lg:col-span-6 bg-slate-950/40 rounded-3xl p-6 md:p-8 border border-blue-950 card-print" id="future-bento-section">
-              <div className="font-mono text-xs text-brand-accent tracking-widest uppercase mb-3 flex items-center gap-1">
-                <Compass className="w-4 h-4 animate-spin-slow" />
-                Industry Forecasts
-              </div>
-              <h3 className="text-xl md:text-2xl font-heading font-extrabold text-white uppercase tracking-tight mb-6">
-                Shifting Automotive Vectors
-              </h3>
-              
-              <div className="space-y-4" id="future-trends-blocks">
-                {[
-                  { title: "More Software", desc: "Digital overlays and dynamic brake controls will double in execution code, becoming standard elements in affordable entry automobiles." },
-                  { title: "More Connectivity", desc: "Network vehicle interfaces will exchange raw spatial terrain scans and cabin interior signals with traffic databases automatically." },
-                  { title: "More Driver Awareness", desc: "Users will demand intuitive interfaces displaying exactly which physical sensor registers active data packets at any second." },
-                  { title: "More Responsibility", desc: "Brands must take accountability—securing telematics parameters locally on physically owned drive systems." }
-                ].map((item, idx) => (
-                  <div key={idx} className="flex gap-3.5 pb-4 border-b border-blue-950 last:border-0 last:pb-0 font-sans">
-                    <span className="font-mono text-xs text-brand-accent mt-0.5">0{idx+1}</span>
-                    <div>
-                      <strong className="text-sm font-semibold text-white block font-heading uppercase">{item.title}</strong>
-                      <p className="text-xs text-gray-400 mt-1 leading-relaxed">{item.desc}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
 
-            <div className="lg:col-span-5 flex flex-col justify-center">
-              <span className="font-mono text-xs text-brand-accent tracking-widest uppercase mb-2">Section 09 // Looking Forward</span>
-              <h2 className="text-3xl md:text-4xl font-heading font-extrabold text-white tracking-tight mb-5 leading-tight">
-                The Future Of Vehicle Intelligence.
-              </h2>
-              <div className="space-y-4 text-sm text-gray-400 sm:text-base leading-relaxed font-sans">
-                <p>
-                  As safety engineering becomes entirely electronic, the physical cabin remains the ultimate private shelter. Modern engineering has built massive conveniences, but created historic privacy vulnerabilities.
-                </p>
-                <p>
-                  We believe future vehicles should be autonomous local nodes, utilizing physical micro-processors to compute coordinates safely under your control.
-                </p>
-                <div className="p-4 bg-[#0B1F3A]/40 text-xs italic rounded-lg text-slate-300 font-medium select-none border border-blue-900/20">
-                  ⚠️ <strong className="text-white uppercase font-mono text-[9px] block">Ethical Assurance Notice:</strong>
-                  We make no claims that our current market catalog operates with complete standalone isolation today. Astrateq outlines this blueprint purely as a transparent strategic design standard.
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </section>
 
 
         {/* =======================================
@@ -1508,7 +1349,7 @@ export default function App() {
           </div>
 
           <div className="flex flex-wrap justify-center gap-4 text-[10px] select-none text-brand-accent" id="footer-links">
-            <span className="hover:underline cursor-pointer" onClick={() => scrollToSection('problem')}>Manitesto</span>
+            <span className="hover:underline cursor-pointer" onClick={() => scrollToSection('zerocloud')}>Manifesto</span>
             <span>•</span>
             <span className="hover:underline cursor-pointer" onClick={() => scrollToSection('resources')}>Guides</span>
             <span>•</span>
