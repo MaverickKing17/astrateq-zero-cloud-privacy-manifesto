@@ -1340,27 +1340,58 @@ export default function App() {
       </main>
 
       {/* Elegant publication footer */}
-      <footer className="border-t border-blue-950 bg-slate-950/80 backdrop-blur-md py-12 px-6 text-xs text-gray-500 font-mono relative z-20" id="manifesto-footer">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+      <footer className="relative border-t border-[#00D4FF]/30 bg-[#040D1A] py-14 px-8 text-xs font-mono z-20" id="manifesto-footer">
+        {/* Superior Ambient Top Border Glow */}
+        <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#00D4FF]/50 to-transparent shadow-[0_0_12px_#00D4FF]" />
+
+        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-8">
           
-          <div className="flex flex-col gap-1 text-center md:text-left select-none">
-            <span className="text-white font-bold tracking-widest uppercase">ASTRATEQ GADGETS</span>
-            <span className="text-[10px] text-gray-500">Design strategists & privacy advocates. Manufactured responsibly in Canada.</span>
+          {/* Logo & Manifesto Mission Details */}
+          <div className="flex flex-col gap-2 text-center lg:text-left select-none">
+            <h4 className="text-white font-extrabold tracking-widest uppercase text-sm sm:text-base flex items-center justify-center lg:justify-start gap-2">
+              ASTRATEQ GADGETS
+              <span className="inline-block w-2 h-2 rounded-full bg-[#00D4FF] animate-pulse" />
+            </h4>
+            <p className="text-xs text-white max-w-sm sm:max-w-md font-sans leading-relaxed">
+              Design strategists & privacy advocates. Re-engineering modern vehicular logic and diagnostics responsibly in Canada.
+            </p>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-4 text-[10px] select-none text-brand-accent" id="footer-links">
-            <span className="hover:underline cursor-pointer" onClick={() => scrollToSection('zerocloud')}>Manifesto</span>
-            <span>•</span>
-            <span className="hover:underline cursor-pointer" onClick={() => scrollToSection('resources')}>Guides</span>
-            <span>•</span>
-            <span className="hover:underline cursor-pointer" onClick={() => scrollToSection('faq')}>FAQ Center</span>
-            <span>•</span>
-            <span className="hover:underline cursor-pointer" onClick={() => scrollToSection('commitments')}>Commitments</span>
+          {/* Premium High-Contrast Links Container */}
+          <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-3 font-semibold text-xs md:text-sm" id="footer-links">
+            <button 
+              onClick={() => scrollToSection('zerocloud')} 
+              className="text-white hover:text-[#00D4FF] transition-all cursor-pointer font-bold tracking-wide uppercase px-2 py-1 hover:scale-105 active:scale-95"
+            >
+              Manifesto
+            </button>
+            <span className="text-[#00D4FF] select-none text-base font-bold leading-none">•</span>
+            <button 
+              onClick={() => scrollToSection('resources')} 
+              className="text-white hover:text-[#00D4FF] transition-all cursor-pointer font-bold tracking-wide uppercase px-2 py-1 hover:scale-105 active:scale-95"
+            >
+              Guides
+            </button>
+            <span className="text-[#00D4FF] select-none text-base font-bold leading-none">•</span>
+            <button 
+              onClick={() => scrollToSection('faq')} 
+              className="text-white hover:text-[#00D4FF] transition-all cursor-pointer font-bold tracking-wide uppercase px-2 py-1 hover:scale-105 active:scale-95"
+            >
+              FAQ Center
+            </button>
+            <span className="text-[#00D4FF] select-none text-base font-bold leading-none">•</span>
+            <button 
+              onClick={() => scrollToSection('commitments')} 
+              className="text-white hover:text-[#00D4FF] transition-all cursor-pointer font-bold tracking-wide uppercase px-2 py-1 hover:scale-105 active:scale-95"
+            >
+              Commitments
+            </button>
           </div>
 
-          <div className="text-center md:text-right text-[10px] text-gray-600 flex flex-col gap-0.5 select-none font-mono">
-            <span>© 2026 Astrateq Gadgets. All rights reserved.</span>
-            <span>PIPEDA & Quebec Law 25 compliance layout format.</span>
+          {/* Full High-Contrast Legal & Attribution Metadata */}
+          <div className="text-center lg:text-right text-[11px] text-white/90 flex flex-col gap-1.5 select-none font-mono font-medium max-w-xs md:max-w-md lg:max-w-none">
+            <span className="text-white font-bold">© 2026 Astrateq Gadgets. All rights reserved.</span>
+            <span className="text-white/80">PIPEDA & Quebec Law 25 compliance layout standard.</span>
           </div>
         </div>
       </footer>
