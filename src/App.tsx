@@ -248,23 +248,6 @@ export default function App() {
       <div className="ambient-glow bg-[#00D4FF] w-[500px] h-[500px] top-[-100px] left-[-200px]" />
       <div className="ambient-glow bg-[#0a3560] w-[600px] h-[600px] bottom-[10%] right-[-100px]" />
 
-      {/* Embedded Browser Facade Header showing privacy.astrateqgadgets.com (Visual constraint touch) */}
-      <div className="bg-slate-950/80 border-b border-blue-900/40 text-xs px-4 py-2 flex items-center justify-between font-mono text-gray-400 select-none z-40 relative no-print shrink-0" id="browser-facade">
-        <div className="flex items-center gap-2">
-          <span className="w-2.5 h-2.5 rounded-full bg-red-500/80 inline-block"></span>
-          <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/80 inline-block"></span>
-          <span className="w-2.5 h-2.5 rounded-full bg-green-500/80 inline-block"></span>
-        </div>
-        <div className="bg-slate-900/90 border border-blue-950 px-4 py-0.5 rounded-md w-1/2 max-w-sm text-center flex items-center justify-center gap-1.5 text-gray-300">
-          <Globe className="w-3.5 h-3.5 text-brand-accent/70" />
-          <span className="truncate">https://privacy.astrateqgadgets.com</span>
-        </div>
-        <div className="flex items-center gap-2 text-xs text-brand-accent select-none font-sans font-medium">
-          <span className="hidden sm:inline bg-[#00D4FF]/10 text-brand-accent px-2 py-0.5 rounded text-[10px] tracking-widest uppercase">Canada Standard</span>
-          <span className="text-[11px] text-gray-500 font-mono">128-bit isolated</span>
-        </div>
-      </div>
-
       {/* Sticky Navigation (Requirement) */}
       <header className="sticky top-0 bg-brand-bg/90 backdrop-blur-md border-b border-blue-950 z-40 py-3 px-6 transition-all duration-300 no-print" id="sticky-navigation-header">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
@@ -351,6 +334,19 @@ export default function App() {
           >
             <Menu className="w-5 h-5" />
           </button>
+
+          {/* Top-Right Premium Logo */}
+          <div className="flex items-center ml-4 pl-4 border-l border-blue-900/40 shrink-0" id="top-right-logo-container">
+            <div className="relative group select-none">
+              <div className="absolute -inset-1 bg-gradient-to-r from-[#FF7000] to-yellow-500 rounded-full blur opacity-30 group-hover:opacity-75 transition duration-500"></div>
+              <img 
+                src="https://i.ibb.co/Z6hnHx3y/Gemini-Generated-Image-pta8i9pta8i9pta8.png" 
+                alt="Logo" 
+                className="relative w-10 h-10 rounded-full border border-yellow-500/30 object-cover shadow-md"
+                referrerPolicy="no-referrer"
+              />
+            </div>
+          </div>
         </div>
 
         {/* Mobile Navigation Drawer */}
@@ -1544,13 +1540,24 @@ export default function App() {
             initial={{ opacity: 0, y: 30, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            className="fixed bottom-6 right-6 bg-[#0B1F3A] border border-[#00D4FF] text-[#00D4FF] px-4 py-3 rounded-xl shadow-lg z-50 flex items-center gap-2 font-mono text-[11px] font-bold max-w-sm selection:bg-transparent"
+            className="fixed bottom-24 right-6 bg-[#0B1F3A]/95 backdrop-blur border border-[#00D4FF] text-[#00D4FF] px-4 py-3 rounded-xl shadow-lg z-50 flex items-center gap-2 font-mono text-[11px] font-bold max-w-sm selection:bg-transparent"
           >
             <Info className="w-4 h-4 flex-shrink-0 animate-bounce" />
             <span>{toastMessage}</span>
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Floating Bright Tangerine Up Arrow (Scroll to Top) in the Bottom-Right Corner */}
+      <div className="fixed bottom-6 right-6 z-40 no-print" id="floating-tangerine-back-to-top">
+        <button 
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          className="flex items-center justify-center w-12 h-12 rounded-full bg-[#FF7000] hover:bg-[#FF851A] text-slate-950 border-2 border-white/20 transition-all cursor-pointer group shadow-[0_0_20px_rgba(255,112,0,0.5)] hover:shadow-[0_0_30px_rgba(255,112,0,0.9)] active:scale-95"
+          title="Back to Top"
+        >
+          <ChevronUp className="w-7 h-7 text-slate-950 stroke-[3] group-hover:-translate-y-0.5 transition-transform" />
+        </button>
+      </div>
     </div>
   );
 }
