@@ -1,0 +1,6 @@
+{
+  "name": "Astrateq Gadgets Zero-Cloud Privacy Manifesto",
+  "description": "A premium educational digital publication exploring connected vehicle privacy, local processing, and transparency.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
